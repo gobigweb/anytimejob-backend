@@ -17,8 +17,7 @@ class AuthController extends Controller
         $request->validated();
 
         $user = new User();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        $user->full_name = $request->full_name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();

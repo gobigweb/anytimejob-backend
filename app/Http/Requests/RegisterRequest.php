@@ -24,8 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'full_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'password_confirm' => 'required|same:password',
@@ -40,8 +39,7 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'first_name.required' => 'First Name is Required',
-            'last_name.required' => 'Last Name is Required',
+            'full_name.required' => 'First Name is Required',
             'email.required' => 'Email is Required',
             'email.email' => 'Invalid Email Address',
             'email.unique' => 'Email Address Already Exist',

@@ -12,8 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
  * App\Models\User
  *
  * @property int $id
- * @property string $first_name
- * @property string $last_name
+ * @property string $full_name
  * @property string $email
  * @property string $password
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -45,8 +44,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'full_name',
         'email',
         'password',
     ];
