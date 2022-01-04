@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UpdateUserPasswordRequest;
+use App\Http\Requests\UpdateUserInfoRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Auth;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -22,13 +25,12 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->role_id = $request->role_id;
         $user->save();
 
         event(new Registered($user));
 
-        return response()->json([
-            'user' => $user
-        ],201);
+        return response()->json(New UserResource($user),201);
     }
 
     public function login(LoginRequest $request){
@@ -65,4 +67,32 @@ class AuthController extends Controller
         ])->withCookie($cookie);
 
     }
+
+    public function updateInfo(UpdateUserInfoRequest $request)
+    {
+
+        $request->validated();
+
+        $user = $request->user();
+
+        $user->update($request->only('name','email'));
+
+        return response()->json(New UserResource($user),202);
+    }
+
+    public function updatePassword(UpdateUserPasswordRequest $request)
+    {
+        $request->validated();
+
+        $user = $request->user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $user->tokens()->delete();
+
+        $cookie = \Cookie::forget('jwt');
+
+        return response()->json(New UserResource($user),202);
+    }
+
 }

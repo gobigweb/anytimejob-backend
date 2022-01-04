@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\PasswordController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +37,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum','verified')->group(function () {
     Route::post("/logout", [AuthController::class, "logout"]);
+
+    Route::put("/users/info", [AuthController::class, "updateInfo"]);
+    Route::put("/users/password", [AuthController::class, "updatePassword"]);
+
+    Route::apiResource('/users', UserController::class);
+    Route::apiResource('/roles', RoleController::class);
+    Route::get('/permissions', [PermissionController::class,'index']);
+
+    Route::apiResource('/categories', CategoryController::class);
+    Route::apiResource('/sub-categories', SubCategoryController::class);
+
+
+
+
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return User::with('role')->find($request->user()->id);
     });
 });
 
