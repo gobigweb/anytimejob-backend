@@ -25,34 +25,77 @@ use App\Http\Controllers\Api\SubCategoryController;
 
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
-
-
 Route::post('forgot-password', [PasswordController::class, 'forgot']);
 Route::post('reset-password', [PasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post("/logout", [AuthController::class, "logout"]);
     Route::post('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail']);
     Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
 });
 
-Route::middleware('auth:sanctum','verified')->group(function () {
-    Route::post("/logout", [AuthController::class, "logout"]);
 
-    Route::put("/users/info", [AuthController::class, "updateInfo"]);
-    Route::put("/users/password", [AuthController::class, "updatePassword"]);
+Route::middleware('auth:sanctum','UserPermission','verified')->group(function () {
 
-    Route::apiResource('/users', UserController::class);
-    Route::apiResource('/roles', RoleController::class);
-    Route::get('/permissions', [PermissionController::class,'index']);
+    Route::put('/users/info',
+        [AuthController::class, "updateInfo"]
+    )->name('user-info');
 
-    Route::apiResource('/categories', CategoryController::class);
-    Route::apiResource('/sub-categories', SubCategoryController::class);
+    Route::put('/users/password',
+        [AuthController::class, "updatePassword"]
+    )->name('user-password');
+
+    Route::get('/users',
+        [UserController::class, "index"]
+    )->name('view-users');
+
+    Route::post('/users',
+        [UserController::class, "store"]
+    )->name('store-users');
+
+    Route::get('/users/{id}',
+        [UserController::class, "show"]
+    )->name('show-user');
+
+    Route::put('/users/{id}',
+        [UserController::class, "update"]
+    )->name('update-user');
+
+    Route::delete('/users/{id}',
+        [UserController::class, "destroy"]
+    )->name('delete-user');
 
 
 
+    Route::get('/roles',
+        [RoleController::class, "index"]
+    )->name('view-roles');
 
-    Route::get('/user', function (Request $request) {
-        return User::with('role')->find($request->user()->id);
-    });
+    Route::post('/roles',
+        [RoleController::class, "store"]
+    )->name('store-roles');
+
+    Route::get('/roles/{id}',
+        [RoleController::class, "show"]
+    )->name('show-role');
+
+    Route::put('/roles/{id}',
+        [RoleController::class, "update"]
+    )->name('update-role');
+
+    Route::delete('/roles/{id}',
+        [RoleController::class, "destroy"]
+    )->name('delete-role');
+
+
+
+    Route::get('/permissions',
+        [PermissionController::class, "index"]
+    )->name('view-permissions');
+
+
+    // Route::apiResource('/categories', CategoryController::class);
+    // Route::apiResource('/sub-categories', SubCategoryController::class);
+
 });
 

@@ -13,13 +13,32 @@ class PermissionTableDataSeeder extends Seeder
      */
     public function run()
     {
-        $data = [
-            ['name' => 'view_users'],
-            ['name' => 'edit_user'],
-            ['name' => 'view_roles'],
-            ['name' => 'edit_roles'],
-        ];
+        $routes = [];
+        foreach (\Route::getRoutes()->getRoutes() as $route){
+            if(is_array($route->action['middleware'])){
+                if(in_array('UserPermission',$route->action['middleware'])){
+                    $routeUrl = url($route->uri());
+                    $routeUrl = str_replace(url('api'),'',$routeUrl);
+                    $routeName = $route->getName();
+                    $item = array(
+                        'name' => $routeName,
+                        'url' => $routeUrl,
+                    );
+                    $routes[] = $item;
+                }
+            };
+        }
 
-        DB::table('permissions')->insert($data);
+        //Remove Duplicate
+        $routeList = array();
+        $usedFruits = array();
+        foreach ( $routes AS $key => $line ) {
+            if ( !in_array($line['name'], $usedFruits) ) {
+                $usedFruits[] = $line['name'];
+                $routeList[$key] = $line;
+            }
+        }
+
+        DB::table('permissions')->insert($routeList);
     }
 }
