@@ -24,10 +24,10 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_name' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'password_confirm' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
         ];
     }
 
@@ -39,13 +39,13 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'full_name.required' => 'First Name is Required',
+            'name.required' => 'First Name is Required',
             'email.required' => 'Email is Required',
             'email.email' => 'Invalid Email Address',
             'email.unique' => 'Email Address Already Exist',
             'password.required' => 'Password is Required',
-            'password_confirm.required' => 'Confirm Password is Required',
-            'password_confirm.same' => 'Confirm Password is not Match',
+            'password_confirmation.required' => 'Confirm Password is Required',
+            'password_confirmation.same' => 'Confirm Password is not Match',
         ];
     }
 }
