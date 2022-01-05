@@ -7,41 +7,60 @@ use Illuminate\Http\Request;
 use App\Models\SubCategory;
 use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
+use App\Http\Resources\SubCategoryResource;
+use Auth;
 
 class SubCategoryController extends Controller
 {
 
     public function index()
     {
-        return SubCategory::paginate();
+        return SubCategoryResource::collection(SubCategory::paginate());
     }
 
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreSubCategoryRequest $request)
     {
         $request->validated();
 
-        $subCategory = new SubCategory();
-        $subCategory->name = $request->name;
-        $subCategory->save();
+        $currentUser =Auth::user();
+        $subcategory = new SubCategory();
+        $subcategory->name = $request->name;
+        $subcategory->slug = $request->slug;
+        $subcategory->icon_image = $request->icon_image;
+        $subcategory->icon_code = $request->icon_code;
+        $subcategory->status_id = 1;
+        $subcategory->created_by = $currentUser->id;
+        $subcategory->save();
 
-        return response()->json($subCategory,201);
+        $subcategory->categories()->sync($request->category_id,false);
+
+        return response()->json(New SubCategoryResource($subcategory),201);
     }
 
 
     public function show($id)
     {
-        return SubCategory::find($id);
+        return New SubCategoryResource(SubCategory::find($id));
     }
 
 
-    public function update(UpdateCategoryRequest $request, $id)
+    public function update(UpdateSubCategoryRequest $request, $id)
     {
-        $subCategory = SubCategory::find($id);
-        $subCategory->name = $request->name;
-        $subCategory->save();
+        $currentUser =Auth::user();
+        $subcategory = SubCategory::find($id);
+        $subcategory->name = $request->name;
+        $subcategory->slug = $request->slug;
+        $subcategory->icon_image = $request->icon_image;
+        $subcategory->icon_code = $request->icon_code;
+        $subcategory->category_id = $request->category_id;
+        $subcategory->status_id = $request->status_id;
+        $subcategory->updated_by = $currentUser->id;
+        $subcategory->save();
 
-        return response()->json($subCategory,202);
+        $subcategory->categories()->sync($request->category_id,true);
+
+        return response()->json(New SubCategoryResource($subcategory),202);
     }
 
 

@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SubCategory extends Model
 {
-    protected $fillable =  ['name','slug','icon_image','icon_code','status_id','created_by','updated_by'];
+    protected $fillable = ['name','slug','icon_image','icon_code','status_id','created_by','updated_by'];
 
     protected $table = 'sub_categories';
 

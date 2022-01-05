@@ -88,13 +88,54 @@ Route::middleware('auth:sanctum','UserPermission','verified')->group(function ()
     )->name('delete-role');
 
 
-
     Route::get('/permissions',
         [PermissionController::class, "index"]
     )->name('view-permissions');
 
 
-    // Route::apiResource('/categories', CategoryController::class);
+    Route::get('/categories',
+        [CategoryController::class, "index"]
+    )->name('view-categories');
+
+    Route::post('/categories',
+        [CategoryController::class, "store"]
+    )->name('store-categories');
+
+    Route::get('/categories/{id}',
+        [CategoryController::class, "show"]
+    )->name('show-category');
+
+    Route::put('/categories/{id}',
+        [CategoryController::class, "update"]
+    )->name('update-category');
+
+    Route::delete('/categories/{id}',
+        [CategoryController::class, "destroy"]
+    )->name('delete-category');
+
+
+    Route::get('/sub-categories',
+        [SubCategoryController::class, "index"]
+    )->name('view-sub-categories');
+
+    Route::post('/sub-categories',
+        [SubCategoryController::class, "store"]
+    )->name('store-sub-categories');
+
+    Route::get('/sub-categories/{id}',
+        [SubCategoryController::class, "show"]
+    )->name('show-sub-category');
+
+    Route::put('/sub-categories/{id}',
+        [SubCategoryController::class, "update"]
+    )->name('update-sub-category');
+
+    Route::delete('/sub-categories/{id}',
+        [SubCategoryController::class, "destroy"]
+    )->name('delete-sub-category');
+
+
+    // Route::apiResource('/sub-categories', CategoryController::class);
     // Route::apiResource('/sub-categories', SubCategoryController::class);
 
 });

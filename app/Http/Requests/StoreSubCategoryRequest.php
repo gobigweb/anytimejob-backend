@@ -24,9 +24,8 @@ class StoreSubCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:100|unique:categories',
-            'slug' => 'required|max:100|unique:categories',
-            'icon_image' => 'mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:100|unique:sub_categories',
+            'slug' => 'required|max:100|unique:sub_categories',
             'category_id' => 'required',
         ];
     }
@@ -43,7 +42,6 @@ class StoreSubCategoryRequest extends FormRequest
             'name.unique' => 'Category Name Already Exist',
             'slug.required' => 'Category Name is Required',
             'slug.unique' => 'Category Name Already Exist',
-            'icon_image.mimes' => 'We only accept :values ',
             'category_id.required' => 'Select Category Name',
         ];
     }

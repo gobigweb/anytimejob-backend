@@ -24,11 +24,10 @@ class UpdateSubCategoryRequest extends FormRequest
     public function rules()
     {
 
-        $id = $this->request->get('id');
+        $id = $this->id;
         return [
-            'name' => 'required|max:100|unique:categories,name,'.$id,
-            'slug' => 'required|max:100|unique:categories,name,'.$id,
-            'icon_image' => 'mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:100|unique:sub_categories,name,'.$id,
+            'slug' => 'required|max:100|unique:sub_categories,name,'.$id,
             'category_id' => 'required',
         ];
     }
@@ -45,7 +44,6 @@ class UpdateSubCategoryRequest extends FormRequest
             'name.unique' => 'Category Name Already Exist',
             'slug.required' => 'Category Name is Required',
             'slug.unique' => 'Category Name Already Exist',
-            'icon_image.mimes' => 'We only accept :values ',
             'category_id.required' => 'Select Category Name',
         ];
     }

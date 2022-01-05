@@ -26,7 +26,6 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name' => 'required|max:100|unique:categories',
             'slug' => 'required|max:100|unique:categories',
-            'icon_image' => 'mimes:jpeg,png,jpg|max:2048',
 
         ];
     }
@@ -43,7 +42,6 @@ class StoreCategoryRequest extends FormRequest
             'name.unique' => 'Category Name Already Exist',
             'slug.required' => 'Category Name is Required',
             'slug.unique' => 'Category Name Already Exist',
-            'icon_image.mimes' => 'We only accept :values ',
         ];
     }
 }
