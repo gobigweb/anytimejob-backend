@@ -19,13 +19,10 @@ class CreateCategoriesTable extends Migration
             $table->string('slug');
             $table->string('icon_image')->nullable();
             $table->string('icon_code')->nullable();
-            $table->unsignedInteger('status_id')->default(1);
+            $table->foreignId('status_id')->default(1)->constrained('statuses');
             $table->timestamps();
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('updated_by')->nullable();
-            $table->foreign('status_id')->references('id')->on('statuses');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });
     }
 
