@@ -14,7 +14,7 @@ class AddStatusIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('status_id')->default(1)->constrained('statuses');
+            $table->foreignId('status_id')->constrained('statuses');
         });
     }
 
