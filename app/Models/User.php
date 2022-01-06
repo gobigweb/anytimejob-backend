@@ -76,10 +76,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
 
     public function role()
     {

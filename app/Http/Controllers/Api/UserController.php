@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $user = User::find($id);
 
-        $user->update($request->only('name'));
+        $user->update($request->only('name','status_id'));
 
         return response()->json(New UserResource($user),202);
     }

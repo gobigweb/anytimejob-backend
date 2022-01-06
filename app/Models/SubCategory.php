@@ -39,10 +39,6 @@ class SubCategory extends Model
 
     protected $table = 'sub_categories';
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
 
     public function categories()
     {
