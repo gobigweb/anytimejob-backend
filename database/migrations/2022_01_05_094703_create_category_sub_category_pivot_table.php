@@ -15,8 +15,10 @@ class CreateCategorySubCategoryPivotTable extends Migration
     {
         Schema::create('category_sub_category', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id', 'category_id_foreign')->references('id')->on('categories')->onDelete('cascade');
+            $table->integer('sub_category_id')->unsigned();
+            $table->foreign('sub_category_id', 'sub_category_id_foreign')->references('id')->on('sub_categories')->onDelete('cascade');
         });
     }
 
