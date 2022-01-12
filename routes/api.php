@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("/logout", [AuthController::class, "logout"]);
     Route::post('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail']);
     Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
+    Route::post("/upload", [ImageController::class, "upload"]);
 });
 
 
@@ -134,10 +135,6 @@ Route::middleware('auth:sanctum','UserPermission','verified')->group(function ()
     Route::delete('/sub-categories/{id}',
         [SubCategoryController::class, "destroy"]
     )->name('delete-sub-category');
-
-
-    Route::post("/upload", [ImageController::class, "upload"]);
-
 
 });
 
