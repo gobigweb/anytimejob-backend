@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\SubCategoryController;
+use App\Http\Controllers\Api\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,8 +136,8 @@ Route::middleware('auth:sanctum','UserPermission','verified')->group(function ()
     )->name('delete-sub-category');
 
 
-    // Route::apiResource('/sub-categories', CategoryController::class);
-    // Route::apiResource('/sub-categories', SubCategoryController::class);
+    Route::post("/upload", [ImageController::class, "upload"]);
+
 
 });
 
