@@ -54,7 +54,13 @@ class AuthController extends Controller
             'jwt' => $jwt
         ])->withCookie($cookie);
     }
+    
+    public function user(Request $request)
+    {
+        $user = $request->user();
 
+        return new UserResource($user);
+    }
     public function logout()
     {
         $user = Auth::user();
@@ -83,7 +89,7 @@ class AuthController extends Controller
     public function updatePassword(UpdateUserPasswordRequest $request)
     {
         $request->validated();
-
+        
         $user = $request->user();
         $user->password = Hash::make($request->password);
         $user->save();

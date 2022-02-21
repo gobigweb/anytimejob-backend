@@ -39,6 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum','UserPermission','verified')->group(function () {
 
+    Route::get('/user',
+        [AuthController::class, "user"]
+    )->name('user');
+
     Route::put('/users/info',
         [AuthController::class, "updateInfo"]
     )->name('user-info');
