@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum','UserPermission','verified')->group(function () {
 
-    Route::post('/user',
+    Route::get('/user',
         [AuthController::class, "user"]
     )->name('user');
 
